@@ -1,0 +1,7 @@
+﻿id,EasyRAG_Score,EasyRAG_Final,EasyRAG_Time,EasyRAG_chk_key_terms,EasyRAG_chk_numeric_accuracy,EasyRAG_chk_logic_mechanism,EasyRAG_chk_completeness,EasyRAG_chk_no_hallucination,AgenticRAG_Score,AgenticRAG_Final,AgenticRAG_Time,AgenticRAG_chk_key_terms,AgenticRAG_chk_numeric_accuracy,AgenticRAG_chk_logic_mechanism,AgenticRAG_chk_completeness,AgenticRAG_chk_no_hallucination,CorrectiveRAG_Score,CorrectiveRAG_Final,CorrectiveRAG_Time,CorrectiveRAG_chk_key_terms,CorrectiveRAG_chk_numeric_accuracy,CorrectiveRAG_chk_logic_mechanism,CorrectiveRAG_chk_completeness,CorrectiveRAG_chk_no_hallucination
+c1a2b3d4-e5f6-4078-9101-112131415161,4.0,40.0,6.64,0.0,0.0,1.0,0.0,1.0,6.0,60.0,10.25,1.0,0.0,1.0,0.0,1.0,10.0,100.0,17.61,1.0,1.0,1.0,1.0,1.0
+d2e3f4g5-h6i7-4890-1234-567890abcdef,10.0,100.0,4.31,1.0,1.0,1.0,1.0,1.0,6.0,60.0,8.3,0.0,1.0,1.0,0.0,1.0,10.0,100.0,18.34,1.0,1.0,1.0,1.0,1.0
+e3f4g5h6-i7j8-4abc-def0-1234567890ab,6.0,60.0,6.26,1.0,0.0,1.0,0.0,1.0,10.0,100.0,7.98,1.0,1.0,1.0,1.0,1.0,10.0,100.0,13.68,1.0,1.0,1.0,1.0,1.0
+f4g5h6i7-j8k9-4cde-f012-34567890abcd,10.0,100.0,3.14,1.0,1.0,1.0,1.0,1.0,10.0,100.0,4.14,1.0,1.0,1.0,1.0,1.0,10.0,100.0,28.97,1.0,1.0,1.0,1.0,1.0
+a5b6c7d8-e9f0-4123-4567-890abcdef123,10.0,100.0,3.6,1.0,1.0,1.0,1.0,1.0,10.0,100.0,4.73,1.0,1.0,1.0,1.0,1.0,10.0,100.0,10.42,1.0,1.0,1.0,1.0,1.0
+AVERAGE,8.0,80.0,4.79,0.8,0.6,1.0,0.6,1.0,8.4,84.0,7.08,0.8,0.8,1.0,0.6,1.0,10.0,100.0,17.804,1.0,1.0,1.0,1.0,1.0
