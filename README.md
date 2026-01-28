@@ -52,29 +52,35 @@
 
 ## 🏗️ 系统架构
 
-```mermaid
-graph TD
-    User[用户输入] --> Normalizer[归一化节点]
-    Normalizer -->|标准化查询| Root[MCTS 根节点]
-    
-    subgraph "LATS Loop (MCTS)"
-        Root --> Select[Selection (UCT)]
-        Select --> Expand[Expansion (多角度子查询)]
-        Expand --> Simulate[Simulation (混合检索 + 网页搜索)]
-        Simulate --> Evaluate[Evaluation (质量打分)]
-        Evaluate -->|反向传播更新 Value| Root
-    end
-    
-    Evaluate -->|迭代次数 < Max| Select
-    Evaluate -->|迭代次数 >= Max| Generate[最终研报生成]
-    
-    subgraph "Data Pipeline"
-        MD[Markdown Files] --> Parser[语义分块 + 标题注入]
-        Parser --> VectorDB[(Milvus: Dense + Sparse)]
-        Simulate <--> VectorDB
-    end
-
-```
+用户查询 (User Query)
+      ⬇
+┌───────────────────────┐
+│  术语归一化 (Normalizer) │ 🛠️ 预处理：纠正拼写、统一术语
+└───────────┬───────────┘
+            ⬇
+    [ MCTS 搜索树根节点 ]
+            ⬇
+┌<─── 🔁 LATS 推理循环 (Max Iterations) ───>┐
+│                                             │
+│  1. 🧠 选择 (Selection)                     │
+│     └── 基于 UCT 算法选择最有潜力的路径       │
+│                                             │
+│  2. 🌿 扩展 (Expansion)                     │
+│     └── 生成多角度子查询 (Sub-queries)        │
+│                                             │
+│  3. 🔍 模拟 (Simulation) ◀──交互──▶ [知识库] │
+│     └── 并行执行：本地混合检索 + 联网搜索      │
+│         (Fact Anchoring 事实锚定)            │
+│                                             │
+│  4. ⚖️ 评估 (Evaluation)                    │
+│     └── 对检索结果打分 (Reflexion)           │
+│     └── 反向传播更新父节点价值 (Backprop)     │
+│                                             │
+└───────────┬─────────────────────────────────┘
+            ⬇ 🛑 达到最大迭代次数
+┌───────────────────────┐
+│  最终生成 (Generation)  │ 📝 汇总高分路径，生成结构化研报
+└───────────────────────┘
 
 ---
 
