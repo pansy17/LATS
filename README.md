@@ -49,38 +49,31 @@
 
 
 ---
+1. 🧠 认知层 (Cognitive Layer - LATS Agent)
+系统基于 MCTS (蒙特卡洛树搜索) 构建动态推理路径：
 
-## 🏗️ 系统架构
+归一化 (Normalize): 入口卫士。使用 LLM 和正则规则将口语化提问转化为标准行业术语（如 tsmc → TSMC, 3nm → 3nm Process Node）。
 
-用户查询 (User Query)
-      ⬇
-┌───────────────────────┐
-│  术语归一化 (Normalizer) │ 🛠️ 预处理：纠正拼写、统一术语
-└───────────┬───────────┘
-            ⬇
-    [ MCTS 搜索树根节点 ]
-            ⬇
-┌<─── 🔁 LATS 推理循环 (Max Iterations) ───>┐
-│                                             │
-│  1. 🧠 选择 (Selection)                     │
-│     └── 基于 UCT 算法选择最有潜力的路径       │
-│                                             │
-│  2. 🌿 扩展 (Expansion)                     │
-│     └── 生成多角度子查询 (Sub-queries)        │
-│                                             │
-│  3. 🔍 模拟 (Simulation) ◀──交互──▶ [知识库] │
-│     └── 并行执行：本地混合检索 + 联网搜索      │
-│         (Fact Anchoring 事实锚定)            │
-│                                             │
-│  4. ⚖️ 评估 (Evaluation)                    │
-│     └── 对检索结果打分 (Reflexion)           │
-│     └── 反向传播更新父节点价值 (Backprop)     │
-│                                             │
-└───────────┬─────────────────────────────────┘
-            ⬇ 🛑 达到最大迭代次数
-┌───────────────────────┐
-│  最终生成 (Generation)  │ 📝 汇总高分路径，生成结构化研报
-└───────────────────────┘
+选择 (Selection): 决策核心。利用 UCT (Upper Confidence Bound) 算法，在“利用现有高分路径”和“探索新路径”之间寻找平衡。
+
+扩展 (Expansion): 思维发散。针对当前节点，生成 2-3 个具体的子查询，从不同维度挖掘信息。
+
+模拟 (Simulation): 执行动作。调用检索工具获取信息，并强制 LLM 生成带引用标记 [Ref: ID] 的中间结论。
+
+评估 (Evaluation): 自我反思。检查回答是否包含真实引用、是否存在幻觉，并根据评分进行反向传播 (Backpropagation)，更新整条推理链的权重。
+
+2. 🗄️ 数据层 (Data Pipeline)
+支撑上层推理的高性能数据管道：
+
+预处理 (Preprocessing): MarkdownParser 对文档进行解析，利用 merge_title_content 算法将父级标题注入到切片内容中，保持语义完整性。
+
+混合存储 (Hybrid Storage):
+
+Dense Vector: 使用 BGE-Small 模型生成的 512 维稠密向量，捕捉语义。
+
+Sparse Vector: 使用自定义 BM25 生成的稀疏向量，捕捉精确关键词（如型号、参数）。
+
+检索 (Retrieval): 通过 Milvus 数据库同时进行双路召回，取长补短
 
 ---
 
